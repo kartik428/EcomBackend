@@ -7,6 +7,7 @@ import subCategoryRoutes from "./routes/subCategory.route.js";
 import brandRoutes from "./routes/brand.route.js";
 import categoryRoutes from "./routes/category.route.js";
 import productRoutes from "./routes/product.route.js";
+import SubsPlan from "./routes/subsPlan.route.js";
 
 dotenv.config();
 connectDB();
@@ -32,6 +33,7 @@ app.use("/api/brands", brandRoutes );
 app.use("/api/category", categoryRoutes );
 app.use("/api/products", productRoutes );
 app.use("/uploads", express.static("uploads"));
+app.use("/api/plans", SubsPlan );
 
 app.get("/", (req, res) => {
   res.send("API running");

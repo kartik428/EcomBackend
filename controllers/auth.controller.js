@@ -32,7 +32,7 @@ export const signUp = async (req, res) => {
     }
 
     //  B2B validation
-    if (accountType === "business") {
+    if (accountType === "B2B") {
       if (!companyName || !companyAddress) {
         return res.status(400).json({
           message: "Company name and address required",
@@ -123,7 +123,7 @@ export const verifyOtp = async (req, res) => {
       email: record.email,
       phone: record.phone,
       password: hashedPassword,
-      accountType: record.accountType || "personal",
+      accountType: record.accountType || "B2C",
       companyName: record.companyName || null,
       gstin: record.gstin || null,
       companyAddress: record.companyAddress || null,
@@ -213,7 +213,7 @@ export const getUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { accountType, name, email, phone, password } = req.body;
 
     if (!name || !email || !phone || !password) {
       return res.status(400).json({
@@ -234,6 +234,7 @@ export const createUser = async (req, res) => {
 
     // CREATE USER
     const user = await User.create({
+      accountType,
       name,
       email,
       phone,

@@ -33,6 +33,13 @@ const userSchema = new mongoose.Schema(
       default: "personal",
     },
 
+    //    accountType: {
+    //   type: String,
+    //   enum: ["B2B", "B2C"],
+    //   default: "B2C",
+    // },
+
+
     // 🏢 B2B fields
     companyName: {
       type: String,

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.model.js";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
+import OrdersModel from "../models/Orders.model.js";
 
 const otpStore = {};
 
@@ -258,4 +259,20 @@ export const deleteUser = async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
 
   res.json({ message: "User deleted" });
+};
+
+
+export const getUserStats = async (req, res) => {
+const stats = await OrdersModel.aggregate([
+  {
+    $group: {
+      _id: "$shippingAddress.email",
+      name: { $first: "$shippingAddress.fullName" },
+      totalOrders: { $sum: 1 },
+      totalAmount: { $sum: "$total" },
+    },
+  },
+]);
+
+  res.json(stats);
 };

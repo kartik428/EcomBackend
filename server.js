@@ -22,8 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "http://localhost:5001", // admin
-      "http://localhost:5173", // frontend (if using Vite)
+      "http://localhost:5001", 
+      "http://localhost:5173",
+      "https://bangar-admin-frontend.vercel.app/",
+      "https://bangar-frontend.vercel.app/",
     ],
     credentials: true,
   }),
@@ -49,5 +51,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on ${PORT}`);
 });

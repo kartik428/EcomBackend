@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
 
     accountType: {
       type: String,
-      enum: ["personal", "business"],
+      enum: ["B2B", "B2C"],
       default: "personal",
     },
 
@@ -38,7 +38,6 @@ const userSchema = new mongoose.Schema(
     //   enum: ["B2B", "B2C"],
     //   default: "B2C",
     // },
-
 
     // 🏢 B2B fields
     companyName: {
@@ -63,7 +62,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true, // adds createdAt & updatedAt
-  }
+  },
 );
 
 export default mongoose.model("User", userSchema);

@@ -19,27 +19,35 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(
+//   cors({
+//     origin: [
+//       "https://bangar-admin-frontend.vercel.app",
+//       "https://bangar-frontend.vercel.app",
+//       "http://localhost:5001",
+//       "http://localhost:5173",
+//     ],
+//     credentials: true,
+//   }),
+// );
+
+// Temporary cors 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5001", 
-      "http://localhost:5173",
-      "https://bangar-frontend.vercel.app",
-      "https://bangar-admin-frontend.vercel.app",
-    ],
+    origin: true,
     credentials: true,
   }),
 );
 
 app.use("/auth", authRoutes);
 app.use("/api/subcategory", subCategoryRoutes);
-app.use("/api/brands", brandRoutes );
-app.use("/api/category", categoryRoutes );
-app.use("/api/products", productRoutes );
+app.use("/api/brands", brandRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/products", productRoutes);
 app.use("/uploads", express.static("uploads"));
-app.use("/api/plans", SubsPlan );
-app.use("/api/orders", ordersRoutes );
-app.use("/api/coupons", couponRoutes );
+app.use("/api/plans", SubsPlan);
+app.use("/api/orders", ordersRoutes);
+app.use("/api/coupons", couponRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running");

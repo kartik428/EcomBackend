@@ -24,6 +24,7 @@ app.use(
     origin: [
       "https://bangar-admin-frontend.vercel.app",
       "https://bangar-frontend.vercel.app",
+      "https://admin-page-dci2.vercel.app/",
       "http://localhost:5001",
       "http://localhost:5173",
     ],

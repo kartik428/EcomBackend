@@ -19,25 +19,25 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(
-//   cors({
-//     origin: [
-//       "https://bangar-admin-frontend.vercel.app",
-//       "https://bangar-frontend.vercel.app",
-//       "http://localhost:5001",
-//       "http://localhost:5173",
-//     ],
-//     credentials: true,
-//   }),
-// );
-
-// Temporary cors 
 app.use(
   cors({
-    origin: true,
+    origin: [
+      "https://bangar-admin-frontend.vercel.app",
+      "https://bangar-frontend.vercel.app",
+      "http://localhost:5001",
+      "http://localhost:5173",
+    ],
     credentials: true,
   }),
 );
+
+// Temporary cors 
+// app.use(
+//   cors({
+//     origin: true,
+//     credentials: true,
+//   }),
+// );
 
 app.use("/auth", authRoutes);
 app.use("/api/subcategory", subCategoryRoutes);

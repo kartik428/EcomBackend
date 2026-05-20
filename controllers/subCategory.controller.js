@@ -40,7 +40,7 @@ export const createSubCategory = async (req, res) => {
       metaTitle,
       metaKeywords: parsedKeywords,
       metaDescription,
-      image: req.file ? req.file.path : null,
+      image: req.file ? `uploads/${req.file.filename}` : null,
     });
 
     await subCategory.save();
@@ -172,7 +172,7 @@ export const updateSubCategory = async (req, res) => {
       id,
       {
         ...req.body,
-        ...(req.file && { image: req.file.path }),
+        ...(req.file && { image: `uploads/${req.file.filename}` }),
       },
       { new: true },
     );

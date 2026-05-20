@@ -6,9 +6,8 @@ export const createBrands = async (req, res) => {
 
     const brand = new Brand({
       title,
-      banner: req.file ? req.file.path : null,
+      image: req.file ? `uploads/${req.file.filename}` : null,
     });
-
     await brand.save();
 
     res.json({
@@ -44,7 +43,9 @@ export const updateBrands = async (req, res) => {
       id,
       {
         ...req.body,
-        ...(req.file && { image: req.file.path }),
+        ...(req.file && {
+          image: `uploads/${req.file.filename}`,
+        }),
       },
       { new: true },
     );

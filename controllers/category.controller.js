@@ -21,7 +21,7 @@ export const createCategory = async (req, res) => {
       metaTitle,
       metaKeywords,
       metaDescription,
-      image: req.file ? req.file.path : null,
+      image: req.file ? `uploads/${req.file.filename}` : null,
     });
 
     await category.save();
@@ -54,13 +54,13 @@ export const getCategories = async (req, res) => {
   }
 };
 
-export const deleteCategories = async(req, res) => {
+export const deleteCategories = async (req, res) => {
   try {
     const { id } = req.params;
 
     const deleted = await Category.findByIdAndDelete(id);
 
-        if (!deleted) {
+    if (!deleted) {
       return res.status(404).json({
         message: "Category not found",
       });
@@ -104,7 +104,6 @@ export const toggleStatus = async (req, res) => {
   }
 };
 
-
 export const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -138,7 +137,7 @@ export const updateCategory = async (req, res) => {
 
     // image update
     if (req.file) {
-      category.image = req.file.path;
+      category.image = `uploads/${req.file.filename}`;
     }
 
     await category.save();
@@ -147,7 +146,6 @@ export const updateCategory = async (req, res) => {
       message: "Category updated successfully",
       data: category,
     });
-
   } catch (error) {
     res.status(500).json({
       message: "Error updating category",

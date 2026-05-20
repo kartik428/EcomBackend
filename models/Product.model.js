@@ -61,7 +61,7 @@ const ProductSchema = new mongoose.Schema(
     },
 
     image: {
-      type: String, // uploads/xxx.jpg
+      type: String, 
     },
 
     status: {

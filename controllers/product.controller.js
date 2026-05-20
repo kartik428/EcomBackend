@@ -30,7 +30,7 @@ export const createProduct = async (req, res) => {
     }
 
     // ================= IMAGE =================
-    const image = req.file ? req.file.path.replace(/\\/g, "/") : null;
+    const image = req.file ? `uploads/${req.file.filename}` : null;
 
     // ================= CREATE =================
     const product = new Product({
@@ -65,7 +65,7 @@ export const createProduct = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   try {
-    const { category, subcategory } = req.query; 
+    const { category, subcategory } = req.query;
 
     const products = await Product.find()
       .populate("categoryId", "title")
@@ -192,7 +192,7 @@ export const updateProduct = async (req, res) => {
     }
 
     // ================= IMAGE =================
-    const image = req.file ? req.file.path.replace(/\\/g, "/") : product.image; // keep old image
+    const image = req.file ? `uploads/${req.file.filename}` : product.image;
 
     // ================= UPDATE =================
     product.title = title;

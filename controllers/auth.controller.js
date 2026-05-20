@@ -187,7 +187,12 @@ export const login = async (req, res) => {
 
     // generate token
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      // { id: user._id, email: user.email },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
       process.env.JWT_SECRET || "secret",
       { expiresIn: "1d" },
     );
@@ -198,6 +203,7 @@ export const login = async (req, res) => {
       userId: user._id,
       name: user.name,
       email: user.email,
+      role: user.role,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -240,7 +246,7 @@ export const createUser = async (req, res) => {
       email,
       phone,
       password: hashedPassword,
-      isVerified: true, 
+      isVerified: true,
     });
 
     res.json({
@@ -261,18 +267,33 @@ export const deleteUser = async (req, res) => {
   res.json({ message: "User deleted" });
 };
 
-
 export const getUserStats = async (req, res) => {
-const stats = await OrdersModel.aggregate([
-  {
-    $group: {
-      _id: "$shippingAddress.email",
-      name: { $first: "$shippingAddress.fullName" },
-      totalOrders: { $sum: 1 },
-      totalAmount: { $sum: "$total" },
+  const stats = await OrdersModel.aggregate([
+    {
+      $group: {
+        _id: "$shippingAddress.email",
+        name: { $first: "$shippingAddress.fullName" },
+        totalOrders: { $sum: 1 },
+        totalAmount: { $sum: "$total" },
+      },
     },
-  },
-]);
+  ]);
 
   res.json(stats);
+};
+
+export const isAdmin = (req, res, next) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Admin access only",
+      });
+    }
+
+    next();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };

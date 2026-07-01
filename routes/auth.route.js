@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    changePassword,
   createUser,
   deleteUser,
   getUsers,
@@ -9,6 +10,7 @@ import {
   signUp,
   verifyOtp,
 } from "../controllers/auth.controller.js";
+import { verifyToken } from "../middleware/auth.middileware.js";
 
 const router = express.Router();
 
@@ -19,7 +21,7 @@ router.get("/", getUsers);
 router.get("/user-stats", getUserStats);
 router.post("/", createUser);
 router.delete("/:id", deleteUser);
-console.log("AUTH ROUTES LOADED");
-router.post("/create-user", isAdmin, createUser);
+router.post("/create-user", verifyToken, isAdmin, createUser);
+router.put("/change-password/:id", verifyToken, changePassword);
 
 export default router;

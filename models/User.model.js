@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
     accountType: {
       type: String,
       enum: ["B2B", "B2C"],
-      default: "personal",
+      default: "B2C",
     },
 
     //    accountType: {

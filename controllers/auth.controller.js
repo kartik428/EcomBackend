@@ -69,6 +69,7 @@ export const signUp = async (req, res) => {
       accountType,
       companyName,
       gstin,
+      role: "user",
       companyAddress,
       otp,
       lastSent: Date.now(),
@@ -245,6 +246,7 @@ export const createUser = async (req, res) => {
       name,
       email,
       phone,
+      role: "user",
       password: hashedPassword,
       isVerified: true,
     });
@@ -291,6 +293,43 @@ export const isAdmin = (req, res, next) => {
     }
 
     next();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { newPassword } = req.body;
+
+    if (!newPassword) {
+      return res.status(400).json({
+        message: "New password required",
+      });
+    }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+
+    await user.save();
+
+    res.json({
+      message: "Password updated successfully",
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,
